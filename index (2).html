@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afsal MS - Full Stack Developer Portfolio</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #2d8a99;
+            --color-primary-hover: #26747f;
+            --color-primary-light: rgba(45, 138, 153, 0.1);
+            --color-dark: #0f172a;
+            --color-dark-light: #1e293b;
+            --color-dark-lighter: #334155;
+            --color-text: #f8fafc;
+            --color-text-secondary: #cbd5e1;
+            --color-text-tertiary: #94a3b8;
+            --color-border: #334155;
+            --color-bg: #0f172a;
+            --color-bg-secondary: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #root {
+            min-height: 100vh;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--color-border);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(15, 23, 42, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--color-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(45, 138, 153, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-50px, -50px) scale(1.1); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f8fafc 0%, var(--color-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--color-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--color-primary);
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(45, 138, 153, 0.3);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            box-shadow: 0 10px 40px rgba(45, 138, 153, 0.3);
+            margin: 0 auto;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: var(--color-text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-facts {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .fact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-text-secondary);
+        }
+
+        .fact-icon {
+            color: var(--color-primary);
+            font-size: 1.2rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--color-bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--color-primary);
+        }
+
+        .skill-category h3 {
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid rgba(45, 138, 153, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--color-bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--color-primary);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--color-dark-lighter), var(--color-dark-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--color-text);
+        }
+
+        .project-description {
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-badge {
+            background: var(--color-dark-lighter);
+            color: var(--color-text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            border: 1px solid var(--color-border);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .project-link.primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .project-link.primary:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .project-link.secondary {
+            background: var(--color-dark-lighter);
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border);
+        }
+
+        .project-link.secondary:hover {
+            background: var(--color-dark-lighter);
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-border);
+        }
+
+        .experience-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            border: 3px solid var(--color-bg);
+        }
+
+        .experience-header {
+            margin-bottom: 1rem;
+        }
+
+        .experience-title {
+            font-size: 1.25rem;
+            color: var(--color-text);
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-company {
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-period {
+            color: var(--color-text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        .experience-highlights {
+            list-style: none;
+        }
+
+        .experience-highlights li {
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .experience-highlights li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .contact-intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-intro p {
+            color: var(--color-text-secondary);
+            font-size: 1.125rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-textarea {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            padding: 0.875rem;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(45, 138, 153, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-button {
+            background: var(--color-primary);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(45, 138, 153, 0.3);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            background: var(--color-bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item h4 {
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--color-primary-hover);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-dark-light);
+            padding: 3rem 2rem 1.5rem;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--color-primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+            color: var(--color-text-tertiary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(15, 23, 42, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                border-bottom: 1px solid var(--color-border);
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.25rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-timeline {
+                padding-left: 1rem;
+            }
+
+            .experience-item {
+                padding-left: 1.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideIn 0.8s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Data
+        const projects = [
+            {
+                id: 1,
+                title: "Finstock",
+                description: "Web application for managing and tracking stock details with JWT authentication",
+                tech: [".NET Core", "React.js", "ASP.NET Web API", "Entity Framework", "JWT"],
+                image: "📊",
+                liveLink: "#",
+                githubLink: "https://github.com/afsalms715/Finstock.git"
+            },
+            {
+                id: 2,
+                title: "YouTube Clone",
+                description: "Full-featured video streaming application with custom categories and theme switching",
+                tech: ["React.js", "Material-UI", "Rapid API", "JavaScript"],
+                image: "📹",
+                liveLink: "https://afsalms-youtube-clone.netlify.app",
+                githubLink: "https://github.com/afsalms715/youtube_clone_afsalms.git"
+            },
+            {
+                id: 3,
+                title: "Todo App",
+                description: "Dynamic task management app with Firebase backend and Context API state management",
+                tech: ["React.js", "Firebase", "Material-UI", "Context API"],
+                image: "✓",
+                liveLink: "https://afsalms-mytodoapp.netlify.app",
+                githubLink: "https://github.com/afsalms715/my-todo-app.git"
+            },
+            {
+                id: 4,
+                title: "EasyCampers",
+                description: "Tourism and trekking booking platform for Moonar resort with package management",
+                tech: ["React.js", "Firebase", "JavaScript"],
+                image: "🏕️",
+                liveLink: "https://easycampers.netlify.app",
+                githubLink: "https://github.com/afsalms715/easycampers.git"
+            }
+        ];
+
+        const skills = {
+            frontend: ["React.js", "Next.js", "JavaScript", "TypeScript", "Tailwind CSS", "Bootstrap", "Material-UI", "Framer Motion"],
+            backend: [".NET Core", "C#", "ASP.NET Core", "ASP.NET Web Forms", "Express.js", "Node.js", "Laravel", "Python"],
+            database: ["SQL Server", "PL/SQL", "Firebase", "MySQL", "Oracle"],
+            tools: ["Git", "GitHub", "Azure DevOps", "Visual Studio", "VS Code"]
+        };
+
+        const experience = [
+            {
+                id: 1,
+                title: ".NET Developer",
+                company: "Regency Group for Corporate Management",
+                location: "Qatar",
+                period: "Feb 2022 - Jan 2024",
+                highlights: [
+                    "Designed and developed RESTful APIs using .NET Core",
+                    "Maintained reporting site (Ivision) with .NET WebForms and AJAX",
+                    "Created ticketing tool for maintenance department"
+                ]
+            },
+            {
+                id: 2,
+                title: "Full Stack Developer",
+                company: "ANB Management and Consultancy",
+                location: "Qatar (Remote)",
+                period: "Jan 2024 - Apr 2024",
+                highlights: [
+                    "Developed ERP modules using Laravel and MySQL",
+                    "Managed codebase using Azure DevOps",
+                    "Worked on UzaccERP application development"
+                ]
+            }
+        ];
+
+        const contact = {
+            email: "afsalms715@gmail.com",
+            phone: "+91 9526615282",
+            location: "Wayanad, Kerala, India",
+            github: "https://github.com/afsalms715",
+            linkedin: "https://www.linkedin.com/in/afsal-ms/"
+        };
+
+        // Components
+        function Navigation() {
+            const [scrolled, setScrolled] = useState(false);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    setScrolled(window.scrollY > 50);
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const scrollToSection = (id) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                    setMobileMenuOpen(false);
+                }
+            };
+
+            return (
+                <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+                    <div className="nav-container">
+                        <a href="#" className="logo">AFSAL MS</a>
+                        <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`}>
+                            <li><a onClick={() => scrollToSection('home')}>Home</a></li>
+                            <li><a onClick={() => scrollToSection('about')}>About</a></li>
+                            <li><a onClick={() => scrollToSection('skills')}>Skills</a></li>
+                            <li><a onClick={() => scrollToSection('projects')}>Projects</a></li>
+                            <li><a onClick={() => scrollToSection('experience')}>Experience</a></li>
+                            <li><a onClick={() => scrollToSection('contact')}>Contact</a></li>
+                        </ul>
+                        <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                            {mobileMenuOpen ? '✕' : '☰'}
+                        </button>
+                    </div>
+                </nav>
+            );
+        }
+
+        function Hero() {
+            const scrollToProjects = () => {
+                const element = document.getElementById('projects');
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            return (
+                <section id="home" className="hero">
+                    <div className="hero-content">
+                        <h1 className="hero-title">Hi, I'm Afsal MS</h1>
+                        <p className="hero-subtitle">Full Stack Developer | React.js &amp; .NET Core</p>
+                        <p className="hero-description">
+                            Building scalable applications with modern technologies
+                        </p>
+                        <a className="cta-button" onClick={scrollToProjects}>View My Work</a>
+                    </div>
+                </section>
+            );
+        }
+
+        function About() {
+            return (
+                <section id="about" className="section">
+                    <h2 className="section-title">About Me</h2>
+                    <div className="about-content">
+                        <div className="profile-image">👨‍💻</div>
+                        <div className="about-text">
+                            <h3>Full Stack Developer</h3>
+                            <p>
+                                I'm a passionate Full Stack Developer with expertise in building modern web applications 
+                                using React.js, .NET Core, and various other cutting-edge technologies. With professional 
+                                experience in Qatar, I've successfully delivered enterprise-level applications and contributed 
+                                to multiple complex projects.
+                            </p>
+                            <p>
+                                My journey in software development has equipped me with strong problem-solving skills and 
+                                the ability to work with diverse tech stacks. I specialize in creating responsive, 
+                                user-friendly interfaces and robust backend systems that scale.
+                            </p>
+                            <div className="about-facts">
+                                <div className="fact-item">
+                                    <span className="fact-icon">📍</span>
+                                    <span>Wayanad, Kerala, India</span>
+                                </div>
+                                <div className="fact-item">
+                                    <span className="fact-icon">💼</span>
+                                    <span>Full Stack Developer</span>
+                                </div>
+                                <div className="fact-item">
+                                    <span className="fact-icon">🎯</span>
+                                    <span>Open to Opportunities</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function Skills() {
+            return (
+                <section id="skills" className="section">
+                    <h2 className="section-title">Technical Skills</h2>
+                    <div className="skills-grid">
+                        <div className="skill-category">
+                            <h3>Frontend Development</h3>
+                            <div className="skill-tags">
+                                {skills.frontend.map((skill, index) => (
+                                    <span key={index} className="skill-tag">{skill}</span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="skill-category">
+                            <h3>Backend Development</h3>
+                            <div className="skill-tags">
+                                {skills.backend.map((skill, index) => (
+                                    <span key={index} className="skill-tag">{skill}</span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="skill-category">
+                            <h3>Databases</h3>
+                            <div className="skill-tags">
+                                {skills.database.map((skill, index) => (
+                                    <span key={index} className="skill-tag">{skill}</span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="skill-category">
+                            <h3>Tools &amp; Others</h3>
+                            <div className="skill-tags">
+                                {skills.tools.map((skill, index) => (
+                                    <span key={index} className="skill-tag">{skill}</span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function Projects() {
+            return (
+                <section id="projects" className="section">
+                    <h2 className="section-title">Featured Projects</h2>
+                    <div className="projects-grid">
+                        {projects.map((project) => (
+                            <div key={project.id} className="project-card">
+                                <div className="project-image">{project.image}</div>
+                                <div className="project-content">
+                                    <h3 className="project-title">{project.title}</h3>
+                                    <p className="project-description">{project.description}</p>
+                                    <div className="project-tech">
+                                        {project.tech.map((tech, index) => (
+                                            <span key={index} className="tech-badge">{tech}</span>
+                                        ))}
+                                    </div>
+                                    <div className="project-links">
+                                        <a 
+                                            href={project.liveLink} 
+                                            className="project-link primary"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Live Demo
+                                        </a>
+                                        <a 
+                                            href={project.githubLink} 
+                                            className="project-link secondary"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            GitHub
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        function Experience() {
+            return (
+                <section id="experience" className="section">
+                    <h2 className="section-title">Work Experience</h2>
+                    <div className="experience-timeline">
+                        {experience.map((exp) => (
+                            <div key={exp.id} className="experience-item">
+                                <div className="experience-header">
+                                    <h3 className="experience-title">{exp.title}</h3>
+                                    <p className="experience-company">{exp.company}</p>
+                                    <p className="experience-period">{exp.period} • {exp.location}</p>
+                                </div>
+                                <ul className="experience-highlights">
+                                    {exp.highlights.map((highlight, index) => (
+                                        <li key={index}>{highlight}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        function Contact() {
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                message: ''
+            });
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                alert('Thank you for your message! This is a demo form. In production, this would send an email.');
+                setFormData({ name: '', email: '', message: '' });
+            };
+
+            const handleChange = (e) => {
+                setFormData({
+                    ...formData,
+                    [e.target.name]: e.target.value
+                });
+            };
+
+            return (
+                <section id="contact" className="section">
+                    <div className="contact-content">
+                        <div className="contact-intro">
+                            <h2>Let's Work Together</h2>
+                            <p>Have a project in mind? Let's discuss how I can help bring your ideas to life.</p>
+                        </div>
+                        
+                        <form className="contact-form" onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label className="form-label">Name</label>
+                                <input 
+                                    type="text" 
+                                    name="name"
+                                    className="form-input" 
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required 
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Email</label>
+                                <input 
+                                    type="email" 
+                                    name="email"
+                                    className="form-input" 
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required 
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Message</label>
+                                <textarea 
+                                    name="message"
+                                    className="form-textarea"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    required
+                                ></textarea>
+                            </div>
+                            <button type="submit" className="submit-button">Send Message</button>
+                        </form>
+
+                        <div className="contact-info">
+                            <div className="contact-item">
+                                <div className="contact-icon">📧</div>
+                                <h4>Email</h4>
+                                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                            </div>
+                            <div className="contact-item">
+                                <div className="contact-icon">📱</div>
+                                <h4>Phone</h4>
+                                <a href={`tel:${contact.phone}`}>{contact.phone}</a>
+                            </div>
+                            <div className="contact-item">
+                                <div className="contact-icon">📍</div>
+                                <h4>Location</h4>
+                                <p>{contact.location}</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function Footer() {
+            return (
+                <footer className="footer">
+                    <div className="footer-content">
+                        <div className="footer-section">
+                            <h3>Afsal MS</h3>
+                            <p>Full Stack Developer specializing in React.js and .NET Core</p>
+                            <div className="social-links">
+                                <a href={contact.github} className="social-link" target="_blank" rel="noopener noreferrer">GH</a>
+                                <a href={contact.linkedin} className="social-link" target="_blank" rel="noopener noreferrer">LI</a>
+                            </div>
+                        </div>
+                        <div className="footer-section">
+                            <h3>Quick Links</h3>
+                            <a onClick={() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' })}>About</a>
+                            <a onClick={() => document.getElementById('skills').scrollIntoView({ behavior: 'smooth' })}>Skills</a>
+                            <a onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}>Projects</a>
+                            <a onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}>Contact</a>
+                        </div>
+                        <div className="footer-section">
+                            <h3>Contact</h3>
+                            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                            <a href={`tel:${contact.phone}`}>{contact.phone}</a>
+                            <p>{contact.location}</p>
+                        </div>
+                    </div>
+                    <div className="footer-bottom">
+                        <p>&copy; 2025 Afsal MS. All rights reserved.</p>
+                    </div>
+                </footer>
+            );
+        }
+
+        function App() {
+            return (
+                <div>
+                    <Navigation />
+                    <Hero />
+                    <About />
+                    <Skills />
+                    <Projects />
+                    <Experience />
+                    <Contact />
+                    <Footer />
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
